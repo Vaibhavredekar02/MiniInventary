@@ -1,0 +1,84 @@
+﻿@model MiniInventoryManagement.Models.Product
+
+@{
+    ViewBag.Title = "ListAllProductPage";
+}
+
+<h2>All Products</h2>
+
+<p>
+    @*@Html.ActionLink("Create New", "AddProductsPage")*@
+    <a href="@Url.Action("AddProductsPage")" class=" btn btn-outline-primary btn-sm">Add New Product</a>
+</p>
+
+
+<input type="text" id="searchBox" placeholder="Search by product name..." class="form-control mb-3"   />
+
+<table id="ProductTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Category)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var item in Model.lstProducts)
+        {
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedDate)
+                </td>
+                <td>
+                    <a href="@Url.Action("EditProductPage", new { id=item.ProductID })" class=" btn btn-outline-primary btn-sm">Edit</a>
+                    <a href="@Url.Action("DeleteProducts", new { id=item.ProductID })" class=" btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure you want to delete?');">Delete</a>
+
+                </td>
+            </tr>
+        }
+    </tbody>
+
+
+</table>
+<div class="text-end mt-3">
+    <strong>Total Inventry Value:</strong>@ViewBag.TotalInventoryValue
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#searchBox').on('keyup', function () {
+            var value = $(this).val().toLowerCase();
+            $('#ProductTable tbody tr').filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+</script>
